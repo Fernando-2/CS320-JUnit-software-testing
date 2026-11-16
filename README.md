@@ -23,7 +23,7 @@ A small in-memory contact-management service built around explicit validation ru
 | Phone | Exactly 10 numeric digits |
 | Address | Required, maximum 30 characters |
 
-The test classes contain **18 `@Test` methods in `ContactTest.java` and 11 in `ContactServiceTest.java`** (29 methods total). This is a count of methods in the repository, **not a claim that tests were run or passed in this update**.
+The test classes contain **19 `@Test` methods in `ContactTest.java` and 11 in `ContactServiceTest.java`** (30 methods total). This is a count of methods in the repository, **not a claim that tests were run or passed in this update**.
 
 ## Code structure
 
