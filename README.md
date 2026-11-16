@@ -1,33 +1,54 @@
-# CS 320: Software Testing, Automation, and Quality Assurance
+# Contact Service — Java & JUnit 5 Testing
 
-**Fernando Rivas**
+**Java · JUnit 5 · Input validation · CRUD operations**  
+*SNHU CS 320: Software Testing, Automation, and Quality Assurance — Academic project*
 
-This portfolio contains my Contact Service implementation and JUnit tests from Project One, along with my summary and reflections report from Project Two. The projects helped me connect software requirements to specific tests and think more carefully about how I verify my own code.
+A small in-memory contact-management service built around explicit validation rules. I implemented the `Contact` data model and `ContactService` operations, then wrote unit tests that check valid workflows, boundary conditions, and failure behavior.
 
-## Project Artifacts
+## What it demonstrates
 
-| File | Purpose |
+- Creating, looking up, updating, and deleting contact records.
+- Rejecting duplicate IDs and missing contacts.
+- Enforcing field constraints and preserving the contact ID.
+- Testing that an invalid update **does not partially modify** a stored contact.
+- Separating domain validation from service-level operations.
+
+## Rules and tests
+
+| Contact field | Rule enforced |
 | --- | --- |
-| [Contact.java](ContactService/Contact.java) | Defines a contact, validates its fields, and keeps the contact ID from changing. |
-| [ContactService.java](ContactService/ContactService.java) | Stores contacts in memory and supports adding, finding, updating, and deleting contacts. |
-| [ContactTest.java](ContactService/ContactTest.java) | Tests contact creation, field limits, null values, valid updates, and invalid inputs. |
-| [ContactServiceTest.java](ContactService/ContactServiceTest.java) | Tests service operations, duplicate IDs, missing contacts, and preservation of original data after an invalid update. |
-| [Project Two Summary and Reflections Report](ProjectTwo/CS320_Project_Two_Summary_and_Reflections_Fernando_Rivas.docx) | Explains my testing approach and reflects on the contact, task, and appointment services. |
+| Contact ID | Required, maximum 10 characters, immutable after creation |
+| First name | Required, maximum 10 characters |
+| Last name | Required, maximum 10 characters |
+| Phone | Exactly 10 numeric digits |
+| Address | Required, maximum 30 characters |
 
-The Contact Service uses Java and JUnit 5. It stores data in memory and does not require a database or user interface.
+The test classes contain **18 `@Test` methods in `ContactTest.java` and 11 in `ContactServiceTest.java`** (29 methods total). This is a count of methods in the repository, **not a claim that tests were run or passed in this update**.
 
-## How can I ensure that my code, program, or software is functional and secure?
+## Code structure
 
-I can build confidence in my software by using the requirements as a checklist and testing both successful behavior and error conditions. In the Contact Service, I wrote JUnit tests for creating contacts, updating information, deleting contacts, and rejecting duplicate IDs. I also tested null values, character limits, and phone numbers containing invalid characters. One useful test checks that an invalid update leaves the original contact information unchanged. Reviewing coverage helps me find code that my tests have not exercised, but passing tests and high coverage do not prove that every defect has been found. For security, I would combine input validation with code review, dependency checks, and appropriate access controls when building a complete application. I would also keep sensitive information out of the source code and rerun regression tests after changes.
+| File | Responsibility |
+| --- | --- |
+| [Contact.java](Contact.java) | Contact model, setters, and validation |
+| [ContactService.java](ContactService.java) | In-memory CRUD operations |
+| [ContactTest.java](ContactTest.java) | Contact construction, limits, and invalid input tests |
+| [ContactServiceTest.java](ContactServiceTest.java) | Service workflows, duplicates, missing IDs, and atomic update behavior |
+| [Project Two reflections](CS320_Project_Two_Summary_and_Reflections_Fernando_Rivas.docx) | Original written testing report |
+| [Original README/reflection](docs/reflection.md) | Course portfolio reflection preserved intact |
 
-## How do I interpret user needs and incorporate them into a program?
+## Running the tests in Eclipse
 
-I start by identifying what the user needs the program to do and turning those needs into clear, testable requirements. For this project, that meant supporting contact management while following rules such as limiting contact IDs to 10 characters and requiring phone numbers to contain exactly 10 digits. I connected each rule to validation in the code and tests that checked whether the rule was followed. I also considered what should happen when something goes wrong, such as adding a duplicate ID or looking up a contact that does not exist. If a requirement is unclear, I would ask the stakeholder for clarification instead of assuming what they meant. This approach helps me build behavior that matches the user's expectations and gives me a way to verify it.
+1. Create a Java project in Eclipse.
+2. Add the four `.java` files above to `src` (the code uses the default package).
+3. Add **JUnit 5** to the project's build path.
+4. Right-click `ContactTest.java` or `ContactServiceTest.java` and choose **Run As → JUnit Test**.
 
-## How do I approach designing software?
+No database or web server is required. Because this portfolio does not include a Maven or Gradle build file, no command-line build is represented as verified.
 
-I approach software design by breaking the problem into smaller parts with clear responsibilities. In this project, the Contact class handles contact data and field validation, while ContactService manages the collection and its operations. Keeping those responsibilities separate made it easier to understand the code and test each part. I also tried to prevent problems through design, such as making the contact ID immutable and validating all proposed changes before updating an existing contact. I prefer starting with a straightforward solution that meets the requirements, then improving it as testing reveals issues. This course reinforced that testing belongs throughout development because it helps me evaluate design decisions and catch mistakes before they become harder to fix.
+## Testing approach
 
-## Running the Contact Tests
+The code uses `assertEquals`, `assertThrows`, `assertSame`, and other JUnit assertions to verify both expected results and error handling. The service builds a validated replacement contact before changing an existing one, protecting stored fields from partial updates after invalid input.
 
-Add all four Java files from the ContactService folder to a Java project's source folder and include JUnit 5 on the build path. The files use the default Java package. Run ContactTest and ContactServiceTest as JUnit tests.
+**Coverage note:** No coverage percentage is claimed here; an accurate value should come from running coverage tooling on this exact revision.
+
+[GitHub profile](https://github.com/Fernando-2) · [Portfolio](https://frflux.com)
